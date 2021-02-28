@@ -3,9 +3,12 @@
 # This code is free, THANK YOU!
 # It is explained at the guide you can find at www.theincompleteguide.com
 # You will also find improvement ideas and explanations
-
+import os
+from dotenv import load_dotenv
 from pathlib import Path
 from datetime import datetime
+
+load_dotenv()
 
 MAX_WORKERS = 10 # max threads at a time
 
@@ -15,12 +18,17 @@ stopLossMargin = 0.05 # extra margin for the stop loss
 operEquity = 10000 # defines the target amount per execution ($ -- in dollars)
 limitOrderMargin = 0.1 # percentage that defines the offset for the limit orders -- in percent
 
-# YOUR API KEYS AT ALPACA GO HERE!
-API_KEY = ""
-API_SECRET_KEY = ""
-ALPACA_API_URL = "https://paper-api.alpaca.markets"
+usePaperMoney = True
 
-# this block checks whether you have your keys written or not
+if usePaperMoney:
+    API_KEY = os.getenv('PAPER_API_KEY')
+    API_SECRET_KEY = os.getenv('PAPER_API_SECRET_KEY')
+    ALPACA_API_URL = os.getenv('PAPER_ALPACA_API_URL')
+else:
+    API_KEY = os.getenv('LIVE_API_KEY')
+    API_SECRET_KEY = os.getenv('LIVE_API_SECRET_KEY')
+    ALPACA_API_URL = os.getenv('LIVE_ALPACA_API_URL')
+
 if API_KEY is "" or API_SECRET_KEY is "":
     print('\n\n##### \n\nPlease get an API key at the Alpaca website! \n\n##### \n\n')
     raise ValueError
